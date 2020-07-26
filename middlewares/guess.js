@@ -5,7 +5,7 @@ const base = 'guess';
 function guess(guess) {
 
     return request({
-        url: `http://localhost:1000/api/${base}`,
+        url: `/api/${base}`,
         method: 'POST',
         body: JSON.stringify({ guess })
     });

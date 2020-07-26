@@ -5,7 +5,7 @@ const base = 'session';
 async function login() {
 
     const session = await request({
-        url: `http://localhost:1000/api/${base}`,
+        url: `/api/${base}`,
         method: 'GET'
     });
 

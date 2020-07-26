@@ -14,7 +14,11 @@ export const request = (options) => {
 
     return new Promise((resolve, reject) => {
 
-        fetch(options.url, options)
+        console.log(process.env.NEXT_PUBLIC_API_URL)
+
+        const uri = `${process.env.NEXT_PUBLIC_API_URL}${options.url}`;
+
+        fetch(uri, options)
             .then(response => {
 
                 if (response.ok) {
