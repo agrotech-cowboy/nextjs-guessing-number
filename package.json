@@ -1,15 +1,16 @@
 {
-    "name": "number-divination-frontend",
+    "name": "number-guessing-frontend",
     "version": "0.1.0",
     "description": "Camada de cliente para um jogo simples de adivinhação de números.",
     "private": true,
     "scripts": {
-        "dev": "next dev",
         "build": "next build",
-        "start": "next start"
+        "start": "next start -p $PORT",
+        "dev": "next dev",
+        "heroku-postbuild": "npm run build"
     },
     "keywords": [
-        "divination",
+        "guessing",
         "mini-game"
     ],
     "author": "Jeferson Kal Lyns <jefersonkallyns@outlook.com>",
