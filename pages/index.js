@@ -154,7 +154,7 @@ const Home = () => {
                             <h1>Instruções</h1>
                             <p>Bem vindo ao jogo de adivinhação de números!</p>
                             <p>Gosta de desafios? Então aqui vai um: Eu vou pensar em um número de <i>um a mil</i>, e você vai tentar adivinhar qual é o número.</p>
-                            <p>As regra é bem simples: Você pode tentar adivinhar quantas vezes quiser, porém a cada nova tentativa eu vou te dizer se o número que você pensou é <i>maior ou menor</i> do que o número que eu pensei.</p>
+                            <p>A regra é bem simples: Você pode tentar adivinhar quantas vezes quiser, porém a cada nova tentativa eu vou te dizer se o número que você pensou é <i>maior ou menor</i> do que o número que eu pensei.</p>
                             <p>Está pronto? Se sim, insira uma nova ficha e vamos jogar!</p>
                             <p style={{ marginBottom: 0, marginTop: 123 }}>
                                 Atenciosamente,<br />
