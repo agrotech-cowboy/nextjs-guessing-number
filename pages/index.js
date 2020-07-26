@@ -1,209 +1,274 @@
-import Head from 'next/head'
+// Bibliotecas
+import {
+    useState,
+    useEffect
+} from 'react';
 
-export default function Home() {
-  return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+import { ThemeProvider } from 'styled-components';
 
-      <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+// Componentes
+import Head from 'next/head';
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
+// Ícones
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faTwitterSquare,
+    faInstagram
+} from '@fortawesome/free-brands-svg-icons';
 
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+// Estilos
+import { light, dark } from '../styles/theme';
+import { GlobalStyles } from '../styles/global';
 
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
+// Middlewares
+import {
+    GuessRoutes,
+    SessionRoutes
+} from '../middlewares';
 
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="logo" />
-        </a>
-      </footer>
-
-      <style jsx>{`
-        .container {
-          min-height: 100vh;
-          padding: 0 0.5rem;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        footer img {
-          margin-left: 0.5rem;
-        }
-
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        a {
-          color: inherit;
-          text-decoration: none;
-        }
-
-        .title a {
-          color: #0070f3;
-          text-decoration: none;
-        }
-
-        .title a:hover,
-        .title a:focus,
-        .title a:active {
-          text-decoration: underline;
-        }
-
-        .title {
-          margin: 0;
-          line-height: 1.15;
-          font-size: 4rem;
-        }
-
-        .title,
-        .description {
-          text-align: center;
-        }
-
-        .description {
-          line-height: 1.5;
-          font-size: 1.5rem;
-        }
-
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-
-        .grid {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-
-          max-width: 800px;
-          margin-top: 3rem;
-        }
-
-        .card {
-          margin: 1rem;
-          flex-basis: 45%;
-          padding: 1.5rem;
-          text-align: left;
-          color: inherit;
-          text-decoration: none;
-          border: 1px solid #eaeaea;
-          border-radius: 10px;
-          transition: color 0.15s ease, border-color 0.15s ease;
-        }
-
-        .card:hover,
-        .card:focus,
-        .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
-        }
-
-        .card h3 {
-          margin: 0 0 1rem 0;
-          font-size: 1.5rem;
-        }
-
-        .card p {
-          margin: 0;
-          font-size: 1.25rem;
-          line-height: 1.5;
-        }
-
-        .logo {
-          height: 1em;
-        }
-
-        @media (max-width: 600px) {
-          .grid {
-            width: 100%;
-            flex-direction: column;
-          }
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
-  )
+// Constantes
+const RESULTS = {
+    MORE: 1,
+    LESS: 2,
+    EQUAL: 3
 }
+
+const Home = () => {
+
+    useEffect(() => {
+
+        // Adicionando evento para identificar quando o teclado for utilizado
+        document.addEventListener("keydown", onEnterKey, false);
+
+        // Criando sessão na API
+        SessionRoutes.login();
+    }, []);
+
+    const [instructions, setInstructions] = useState(false);
+    const [playing, setPlaying] = useState(false);
+    const [won, setWon] = useState(false);
+    const [theme, setTheme] = useState('dark');
+    const [guess, setGuess] = useState('');
+    const [guesses, setGuesses] = useState([]);
+    const [result, setResult] = useState(null);
+
+    const onClickInstructions = () => {
+        setInstructions(!instructions);
+    }
+
+    const onChangeTheme = () => {
+
+        if (theme === 'light') {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+    }
+
+    const onEnterKey = (event) => {
+        if (event.keyCode === 13) {
+            setPlaying(true);
+        }
+    }
+
+    const onTypeGuess = (event) => {
+
+        const { value } = event.target;
+
+        const regex = /^[0-9\b]+$/;
+
+        if (value === '' || regex.test(value)) {
+            setGuess(value);
+        }
+    }
+
+    const onGuess = (event) => {
+
+        event.preventDefault();
+
+        GuessRoutes
+            .guess(guess)
+            .then((response) => {
+
+                // TODO: Alterar a ordem de entrada dos itens na lista.
+                //       O último item adicionado deve aparecer primeiro.
+                const list = guesses;
+
+                let result = '';
+
+                switch (response.result) {
+                    case RESULTS.EQUAL:
+                        result = 'Bem na mosca';
+                        setWon(true);
+                        break;
+
+                    case RESULTS.LESS:
+                        result = 'Maior que o esperado';
+                        break;
+
+                    case RESULTS.MORE:
+                        result = 'Menor que o esperado';
+                        break;
+                }
+
+                list.unshift({
+                    value: response.guess,
+                    result: result
+                });
+
+                setResult(response);
+                setGuesses(list);
+            })
+            .catch((error) => console.log(error));
+    }
+
+    const onResetMatch = (event) => {
+
+        event.preventDefault();
+
+        // Obtendo nova sessão
+        SessionRoutes.login();
+
+        // Resetando formulários
+        setPlaying(false);
+        setWon(false);
+        setGuess('');
+        setGuesses([]);
+        setResult(null);
+    }
+
+    return (
+        <ThemeProvider theme={theme === 'light' ? light : dark}>
+            <>
+                <GlobalStyles />
+                <div className="container">
+                    <Head>
+                        <title>Adivinhe o número!</title>
+                        <link rel="icon" href="/icons/favicon.ico" />
+                        <link rel="stylesheet" href="/styles/grid.css" />
+                    </Head>
+
+                    {/* Instruções */}
+                    <div className="sidebar" style={{ width: instructions ? 300 : 0 }}>
+                        <div className="sidebar-content">
+                            <h1>Instruções</h1>
+                            <p>Bem vindo ao jogo de adivinhação de números!</p>
+                            <p>Gosta de desafios? Então aqui vai um: Eu vou pensar em um número de <i>um a mil</i>, e você vai tentar adivinhar qual é o número.</p>
+                            <p>As regra é bem simples: Você pode tentar adivinhar quantas vezes quiser, porém a cada nova tentativa eu vou te dizer se o número que você pensou é <i>maior ou menor</i> do que o número que eu pensei.</p>
+                            <p>Está pronto? Se sim, insira uma nova ficha e vamos jogar!</p>
+                            <p style={{ marginBottom: 0, marginTop: 123 }}>
+                                Atenciosamente,<br />
+                                <i>A Máquina</i>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="splash" style={{ width: instructions ? 'calc(100% - 940px)' : 'calc(100% - 640px)' }}>
+
+                        {/* Menu Hamburguer */}
+                        <div className="row">
+                            <div className="col-md-12">
+                                <label className="text-button" onClick={onClickInstructions} style={{ marginRight: 24 }}>{ instructions ? 'Fechar' : 'Ver' } instruções</label>
+                                {
+                                    playing &&
+                                    <label className="text-button" onClick={onResetMatch}>Resetar partida</label>
+                                }
+                                <label className="text-button right" onClick={onChangeTheme}>Alterar tema</label>
+                            </div>
+                        </div>
+
+                        {/* Conteúdo central */}
+                        <div className="content">
+                            {
+                                !playing ?
+                                    <div className="introduction">
+                                        <div>
+                                            <img src={theme === 'light' ? '/images/logo-alt.png' : '/images/logo.png'} />
+                                        </div>
+                                        <h1 className="fading">Pressione Enter para Começar</h1>
+                                    </div> :
+                                    <div className="game">
+                                        <div className="row game-content">
+                                            <div className="col-md-6">
+                                                <h1>Qual número<br />eu estou pensando?</h1>
+                                                <form onSubmit={onGuess}>
+                                                    <input
+                                                        disabled={won}
+                                                        type="text"
+                                                        maxLength={4}
+                                                        name="guess"
+                                                        value={guess}
+                                                        onChange={onTypeGuess}
+                                                        placeholder="0000"
+                                                        required>
+                                                    </input>
+                                                    <button className="text-button" type="submit" disabled={won}>Dar palpite</button>
+                                                </form>
+                                                {
+                                                    result &&
+                                                    <div className="game-hint">
+                                                        <div>
+                                                            <h1>{result.text.message}</h1>
+                                                            <p className="big-text">{result.text.highlight}</p>
+                                                            <h1 style={{ marginBottom: 0 }}>{result.text.motivation}</h1>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div className="col-md-6">
+                                                {
+                                                    guesses.length > 0 &&
+                                                    <div className="game-tries">
+                                                        <h1>Últimas<br />tentativas</h1>
+                                                        <div className="tries-content">
+                                                            <table>
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Palpite</th>
+                                                                        <th>Resultado</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        guesses.map((guess, key) => {
+                                                                            return (
+                                                                                <tr key={key}>
+                                                                                    <td>{guess.value}</td>
+                                                                                    <td>{guess.result}</td>
+                                                                                </tr>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                            }
+                        </div>
+
+                        {/* Rodapé */}
+                        <div className="footer row">
+                            <div className="col-md-6 icons">
+                                <a href="https://www.twitter.com/" target="_blank">
+                                    <FontAwesomeIcon style={{ width: 24, height: 24, marginRight: 12 }} icon={faTwitterSquare} />
+                                </a>
+                                <a href="https://www.instagram.com/xeferson/" target="_blank">
+                                    <FontAwesomeIcon style={{ width: 24, height: 24, }} icon={faInstagram} />
+                                </a>
+                            </div>
+                            <div className="col-md-6">
+                                <label className="right">Criado por Jeferson Kal Lyns</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        </ThemeProvider>
+    )
+}
+
+export default Home;
