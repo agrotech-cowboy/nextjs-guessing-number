@@ -1,6 +1,6 @@
 # Number Guessing
 
-*Number Guessing* é uma proposta de mini-game sugerida como prova para o processo de seleção da *Scale System*. Uma versão de testes pode ser acessada através deste link: https://nextjs-guessing-number.herokuapp.com/
+*Number Guessing* é uma proposta de mini-game sugerida como prova para o processo de seleção da *Scale System*. Uma versão de testes pode ser acessada clicando [aqui](https://nextjs-guessing-number.herokuapp.com/).
 
 ## Introdução
 
@@ -8,6 +8,10 @@ Bem vindo ao jogo de adivinhação de números! Gosta de desafios? Então aqui v
 
 Atenciosamente,
 *A Máquina*
+
+## Imagens
+[![Number Guessing](https://imgur.com/6XIKMd6.png)](https://imgur.com/a/KNTa5Rq)
+[![Number Guessing](https://i.imgur.com/FJ1pRTD.png)](https://imgur.com/a/KNTa5Rq)
 
 ## Stack
 
