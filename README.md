@@ -9,6 +9,12 @@ Bem vindo ao jogo de adivinhação de números! Gosta de desafios? Então aqui v
 Atenciosamente,
 *A Máquina*
 
+## Considerações
+
+* O projeto não foi desenvolvido para ser utilizado em aparelhos mobile (*ainda*), portanto é recomendado utilizar a aplicação em um computador.
+* O projeto de testes está publicado em uma máquina Heroku sem custos, portanto é necessárop *acordar as máquinas* antes de utilizar os projetos. Clique [aqui](https://nodejs-guessing-number.herokuapp.com/) para acordar o servidor, e em seguida clique [aqui](https://nextjs-guessing-number.herokuapp.com/) para acordar a aplicação web.
+* Deixo disponível um arquivo *Postman* com as requisições possíveis de serem executadas na API. Existe uma rota de testes *ping-pong* que não faz conexão com o banco de dados, esta rota serve apenas para testar se a API está funcionando. Clique [aqui](https://www.getpostman.com/collections/dae0a6ec4c42b7b6a940) para baixar e importar o arquivo no Postman.
+
 ## Imagens
 [![Number Guessing](https://imgur.com/6XIKMd6.png)](https://imgur.com/a/KNTa5Rq)
 [![Number Guessing](https://i.imgur.com/FJ1pRTD.png)](https://imgur.com/a/KNTa5Rq)
@@ -56,7 +62,3 @@ npm run dev
 ```
 
 Este comando é responsável por iniciar o projeto em modo de desenvolvimento.
-
-## Considerações
-
-O projeto não foi projetado para ser utilizado em aparelhos mobile (*ainda*), portanto é recomendado utilizar a aplicação em um computador.
